@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-950 text-slate-100 font-sans antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-slate-900;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-600 rounded-full;
+  }
+}
+
+@layer components {
+  .prose-chat {
+    @apply text-slate-100 text-sm leading-snug;
+  }
+  .prose-chat h1, .prose-chat h2, .prose-chat h3 {
+    @apply font-bold text-blue-300 mt-3 mb-1 text-base;
+  }
+  .prose-chat p {
+    @apply mb-1.5 leading-snug;
+  }
+  .prose-chat ul, .prose-chat ol {
+    @apply pl-5 mb-2 space-y-1;
+  }
+  .prose-chat li {
+    @apply list-disc leading-snug;
+  }
+  .prose-chat strong {
+    @apply font-semibold text-white;
+  }
+  .prose-chat code {
+    @apply bg-slate-700 px-1 py-0.5 rounded text-xs text-green-300;
+  }
+  .prose-chat pre {
+    @apply bg-slate-800 p-3 rounded-lg overflow-x-auto text-xs mb-2;
+  }
+  .prose-chat table {
+    @apply w-full border-collapse text-sm mb-2 rounded-lg overflow-hidden;
+  }
+  .prose-chat th {
+    @apply bg-blue-700 px-3 py-2 text-left text-white font-semibold border border-blue-600;
+  }
+  .prose-chat td {
+    @apply px-3 py-1.5 border border-slate-600 text-slate-200;
+  }
+  .prose-chat tr:nth-child(odd) td {
+    @apply bg-slate-800;
+  }
+  .prose-chat tr:nth-child(even) td {
+    @apply bg-slate-750;
+  }
+  .prose-chat tr:hover td {
+    @apply bg-slate-700;
+  }
+  .prose-chat blockquote {
+    @apply border-l-4 border-blue-500 pl-3 italic text-slate-400 my-1 text-xs;
+  }
+  .bg-slate-750 {
+    background-color: rgb(40, 47, 63);
+  }
+}
+
+.typing-dot {
+  animation: typing-bounce 1.4s infinite ease-in-out;
+}
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: skylark-bi-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend
+    envVars:
+      - key: MONDAY_API_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
+      - key: WORK_ORDERS_BOARD_ID
+        sync: false
+      - key: DEALS_BOARD_ID
+        sync: false
+      - key: CORS_ORIGINS
+        value: https://skylark-bi-agent.vercel.app
