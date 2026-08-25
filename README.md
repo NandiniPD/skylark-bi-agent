@@ -1,5 +1,7 @@
 # Skylark Drones — BI Agent
 
+🔗 **Live Demo:** [https://skylark-opal.vercel.app](https://skylark-opal.vercel.app)
+
 An AI-powered Business Intelligence agent that connects to live monday.com boards and answers founder-level business queries using natural language. Built for the Skylark Drones Technical Assignment.
 
 ---
