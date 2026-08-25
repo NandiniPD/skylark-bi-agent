@@ -2,8 +2,9 @@ services:
   - type: web
     name: skylark-bi-backend
     env: python
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: MONDAY_API_KEY
         sync: false
@@ -16,4 +17,16 @@ services:
       - key: DEALS_BOARD_ID
         sync: false
       - key: CORS_ORIGINS
-        value: https://skylark-bi-agent.vercel.app
+        value: https://skylark-bi-frontend.onrender.com,https://skylark-opal.vercel.app
+  - type: static
+    name: skylark-bi-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://skylark-bi-backend.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
