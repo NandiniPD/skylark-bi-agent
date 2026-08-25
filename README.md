@@ -138,6 +138,3 @@ GROQ_API_KEY=gsk_...           # From console.groq.com/keys
 | Source code ZIP | ✅ Available |
 
 ---
-
-## Submission
-- **Submission Form:** https://forms.gle/9wFwL5mdFbTXQtqq7
