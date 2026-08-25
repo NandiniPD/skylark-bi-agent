@@ -7,9 +7,12 @@ import os
 import logging
 import asyncio
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from dotenv import load_dotenv
@@ -91,15 +94,18 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS — allow frontend origins
-origins = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://localhost:3000").split(",")
+# CORS — allow all origins (covers Vercel, localhost, any custom domain)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins + ["*"],  # Permissive for demo; restrict in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+frontend_dist = Path(__file__).resolve().parent / "dist"
+if (frontend_dist / "assets").is_dir():
+    app.mount("/assets", StaticFiles(directory=frontend_dist / "assets"), name="assets")
 
 
 # --- Pydantic Models ---
@@ -124,6 +130,9 @@ class RefreshResponse(BaseModel):
 
 @app.get("/")
 async def root():
+    index_file = frontend_dist / "index.html"
+    if index_file.is_file():
+        return FileResponse(index_file)
     return {
         "service": "Skylark Drones BI Agent",
         "version": "1.0.0",
@@ -188,6 +197,14 @@ async def data_summary():
         "error": _data_load_error,
         "summary": bi_agent.get_data_summary(),
     }
+
+
+@app.get("/{path:path}")
+async def frontend_routes(path: str):
+    index_file = frontend_dist / "index.html"
+    if index_file.is_file():
+        return FileResponse(index_file)
+    raise HTTPException(status_code=404, detail="Not found")
 
 
 if __name__ == "__main__":
